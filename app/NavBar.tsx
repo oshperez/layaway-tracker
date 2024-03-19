@@ -1,11 +1,18 @@
-import Link from "next/link";
-import React from "react";
-import { RiArchiveDrawerFill } from "react-icons/ri";
+"use client";
 
-function NavBar() {
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { RiArchiveDrawerFill } from "react-icons/ri";
+import classnames from "classnames";
+
+const NavBar = () => {
+  const currentPath = usePathname();
+  console.log(currentPath);
+
   const links = [
-    { label: "Layaways", href: "/layaways" },
     { label: "Dashboard", href: "/" },
+    { label: "Layaways", href: "/layaways" },
   ];
   return (
     <nav className="flex space-x-6 border-b mb-5 px-5 h-14 items-center">
@@ -16,7 +23,11 @@ function NavBar() {
         {links.map((link) => (
           <Link
             key={link.href}
-            className="text-zinc-500 hover:text-zinc-800 transition-colors"
+            className={classnames({
+              "text-zinc-900": link.href === currentPath,
+              "text-zinc-500": link.href !== currentPath,
+              "hover:text-zinc-800 transition-colors": true,
+            })}
             href={link.href}
           >
             {link.label}
@@ -25,6 +36,6 @@ function NavBar() {
       </ul>
     </nav>
   );
-}
+};
 
 export default NavBar;
