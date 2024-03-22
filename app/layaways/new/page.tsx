@@ -9,11 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createLayawaySchema } from "@/app/validationSchemas";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 type LayawayForm = z.infer<typeof createLayawaySchema>;
 
 const NewLayawayPage = () => {
   const [error, setError] = useState("");
+  const [isSubmiting, setSubmiting] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -25,9 +27,11 @@ const NewLayawayPage = () => {
 
   const onSubmit: SubmitHandler<LayawayForm> = async (data) => {
     try {
+      setSubmiting(true);
       await axios.post("/api/layaways", data);
       router.push("/layaways");
     } catch (error) {
+      setSubmiting(false);
       setError("An unexpected error has occurred.");
     }
   };
@@ -53,7 +57,10 @@ const NewLayawayPage = () => {
           {...register("description")}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Submit new layaway</Button>
+        <Button disabled={isSubmiting}>
+          Submit new layaway
+          {isSubmiting && <Spinner />}
+        </Button>
       </form>
     </div>
   );
