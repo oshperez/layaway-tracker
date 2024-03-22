@@ -8,6 +8,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createLayawaySchema } from "@/app/validationSchemas";
 import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 type LayawayForm = z.infer<typeof createLayawaySchema>;
 
@@ -43,27 +44,15 @@ const NewLayawayPage = () => {
           placeholder="Full Name"
           {...register("customerName")}
         />
-        {errors.customerName && (
-          <Text color="red" as="p">
-            {errors.customerName.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.customerName?.message}</ErrorMessage>
         <TextField.Input placeholder="Phone" {...register("customerPhone")} />
-        {errors.customerPhone && (
-          <Text color="red" as="p">
-            {errors.customerPhone.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.customerPhone?.message}</ErrorMessage>
 
         <TextArea
           placeholder="Add a description"
           {...register("description")}
         />
-        {errors.description && (
-          <Text color="red" as="p">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button>Submit new layaway</Button>
       </form>
     </div>
