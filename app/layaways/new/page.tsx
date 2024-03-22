@@ -1,23 +1,28 @@
 "use client";
 
-import { Button, Callout, TextArea, TextField } from "@radix-ui/themes";
+import { Button, Callout, Text, TextArea, TextField } from "@radix-ui/themes";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createLayawaySchema } from "@/app/validationSchemas";
+import { z } from "zod";
 
-interface layawayForm {
-  customerName: string;
-  customerPhone: string;
-  description: string;
-}
+type LayawayForm = z.infer<typeof createLayawaySchema>;
 
 const NewLayawayPage = () => {
   const [error, setError] = useState("");
   const router = useRouter();
-  const { register, handleSubmit } = useForm<layawayForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LayawayForm>({
+    resolver: zodResolver(createLayawaySchema),
+  });
 
-  const onSubmit: SubmitHandler<layawayForm> = async (data) => {
+  const onSubmit: SubmitHandler<LayawayForm> = async (data) => {
     try {
       await axios.post("/api/layaways", data);
       router.push("/layaways");
@@ -38,11 +43,27 @@ const NewLayawayPage = () => {
           placeholder="Full Name"
           {...register("customerName")}
         />
+        {errors.customerName && (
+          <Text color="red" as="p">
+            {errors.customerName.message}
+          </Text>
+        )}
         <TextField.Input placeholder="Phone" {...register("customerPhone")} />
+        {errors.customerPhone && (
+          <Text color="red" as="p">
+            {errors.customerPhone.message}
+          </Text>
+        )}
+
         <TextArea
           placeholder="Add a description"
           {...register("description")}
         />
+        {errors.description && (
+          <Text color="red" as="p">
+            {errors.description.message}
+          </Text>
+        )}
         <Button>Submit new layaway</Button>
       </form>
     </div>
