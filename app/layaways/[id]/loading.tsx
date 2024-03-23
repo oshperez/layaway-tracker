@@ -1,9 +1,5 @@
-import LayawayStatusBadge from "@/app/components/LayawayStatusBadge";
-import { Heading, Flex, Card, Box } from "@radix-ui/themes";
-
-import { FaPhoneAlt } from "react-icons/fa";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import { Box, Card, Flex } from "@radix-ui/themes";
+import { Skeleton } from "@/app/components";
 
 const LoadingLayawayDetailPage = () => {
   return (

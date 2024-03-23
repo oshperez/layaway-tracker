@@ -1,7 +1,6 @@
+import { LayawayStatusBadge, Link } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
-import LayawayStatusBadge from "../components/LayawayStatusBadge";
-import Link from "../components/Link";
 import LayawayActions from "./LayawayActions";
 
 const Layaways = async () => {
