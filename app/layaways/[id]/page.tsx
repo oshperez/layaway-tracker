@@ -1,5 +1,8 @@
+import LayawayStatusBadge from "@/app/components/LayawayStatusBadge";
 import prisma from "@/prisma/client";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
+import { FaPhoneAlt } from "react-icons/fa";
 import React from "react";
 
 interface Props {
@@ -14,12 +17,24 @@ const LayawayDetailPage = async ({ params }: Props) => {
   if (!layaway) notFound();
 
   return (
-    <div>
-      <p>{layaway.customerName}</p>
-      <p>{layaway.customerPhone}</p>
-      <p>{layaway.description}</p>
-      <p>{layaway.status}</p>
-      <p>{layaway.createdAt.toDateString()}</p>
+    <div className="max-w-xl">
+      <Heading mb="2">{layaway.customerName}</Heading>
+      <Flex gap="4">
+        <LayawayStatusBadge status={layaway.status} />
+        <Text>{layaway.createdAt.toDateString()}</Text>
+      </Flex>
+      <Flex gap="3" align="center">
+        <FaPhoneAlt />
+        <Text weight="medium" my="3" as="div">
+          {layaway.customerPhone}
+        </Text>
+      </Flex>
+      <Card>
+        <Text as="div" weight="bold" size="2" mb="2">
+          Description
+        </Text>
+        <Text color="gray">{layaway.description}</Text>
+      </Card>
     </div>
   );
 };
