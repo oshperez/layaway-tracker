@@ -1,14 +1,11 @@
-import React from "react";
-import { Table } from "@radix-ui/themes";
-import Link from "../components/Link";
 import prisma from "@/prisma/client";
+import { Table } from "@radix-ui/themes";
 import LayawayStatusBadge from "../components/LayawayStatusBadge";
-import delay from "delay";
+import Link from "../components/Link";
 import LayawayActions from "./LayawayActions";
 
 const Layaways = async () => {
   const layaways = await prisma.layaway.findMany();
-  await delay(2000);
   return (
     <>
       <LayawayActions />

@@ -3,7 +3,6 @@ import prisma from "@/prisma/client";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import { FaPhoneAlt } from "react-icons/fa";
-import React from "react";
 
 interface Props {
   params: { id: string };
@@ -23,9 +22,9 @@ const LayawayDetailPage = async ({ params }: Props) => {
         <LayawayStatusBadge status={layaway.status} />
         <Text>{layaway.createdAt.toDateString()}</Text>
       </Flex>
-      <Flex gap="3" align="center">
+      <Flex gap="3" align="center" my="3">
         <FaPhoneAlt />
-        <Text weight="medium" my="3" as="div">
+        <Text weight="medium" as="div">
           {layaway.customerPhone}
         </Text>
       </Flex>
