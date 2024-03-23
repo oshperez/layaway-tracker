@@ -3,16 +3,15 @@ import { Button, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import prisma from "@/prisma/client";
 import LayawayStatusBadge from "../components/LayawayStatusBadge";
+import delay from "delay";
+import LayawayActions from "./LayawayActions";
 
 const Layaways = async () => {
   const layaways = await prisma.layaway.findMany();
+  await delay(2000);
   return (
     <>
-      <div className="mb-5">
-        <Button>
-          <Link href="/layaways/new">New layaway</Link>
-        </Button>
-      </div>
+      <LayawayActions />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
@@ -30,7 +29,9 @@ const Layaways = async () => {
           {layaways.map((layaway) => (
             <Table.Row key={layaway.id}>
               <Table.Cell>
-                {layaway.customerName}
+                <Link href={`/layaways/${layaway.id}`}>
+                  {layaway.customerName}
+                </Link>
                 <div className="block md:hidden">
                   <LayawayStatusBadge status={layaway.status} />
                 </div>
