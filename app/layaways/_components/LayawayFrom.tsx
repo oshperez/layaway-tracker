@@ -2,7 +2,7 @@
 
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import { createLayawaySchema } from "@/app/validationSchemas";
+import { layawaySchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Layaway } from "@prisma/client";
 import { Button, Callout, TextArea, TextField } from "@radix-ui/themes";
@@ -12,7 +12,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-type LayawayFormData = z.infer<typeof createLayawaySchema>;
+type LayawayFormData = z.infer<typeof layawaySchema>;
 
 const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
   const [error, setError] = useState("");
@@ -23,7 +23,7 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<LayawayFormData>({
-    resolver: zodResolver(createLayawaySchema),
+    resolver: zodResolver(layawaySchema),
   });
 
   const onSubmit: SubmitHandler<LayawayFormData> = async (data) => {
