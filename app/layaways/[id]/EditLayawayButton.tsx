@@ -6,7 +6,7 @@ const EditLayawayButton = ({ layawayId }: { layawayId: number }) => {
   return (
     <Button>
       <Pencil2Icon />
-      <Link href={`layaways/${layawayId}/edit`}>Edit layaway</Link>
+      <Link href={`/layaways/${layawayId}/edit`}>Edit layaway</Link>
     </Button>
   );
 };
