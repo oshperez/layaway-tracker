@@ -32,8 +32,8 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
 
       if (layaway) await axios.patch("/api/layaways/" + layaway.id, data);
       else await axios.post("/api/layaways", data);
-
       router.push("/layaways");
+      router.refresh();
     } catch (error) {
       setSubmiting(false);
       setError("An unexpected error has occurred.");
