@@ -29,7 +29,10 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
   const onSubmit: SubmitHandler<LayawayFormData> = async (data) => {
     try {
       setSubmiting(true);
-      await axios.post("/api/layaways", data);
+
+      if (layaway) await axios.patch("/api/layaways/" + layaway.id, data);
+      else await axios.post("/api/layaways", data);
+
       router.push("/layaways");
     } catch (error) {
       setSubmiting(false);
@@ -66,7 +69,7 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={isSubmiting}>
-          Submit new layaway
+          {layaway ? "Update layaway" : "Submit new layaway"}{" "}
           {isSubmiting && <Spinner />}
         </Button>
       </form>
