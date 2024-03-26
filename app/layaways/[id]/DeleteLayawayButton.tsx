@@ -1,7 +1,12 @@
+"use client";
+
 import { TrashIcon } from "@radix-ui/react-icons";
 import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const DeleteLayawayButton = ({ layawayId }: { layawayId: number }) => {
+  const router = useRouter();
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger>
@@ -24,7 +29,15 @@ const DeleteLayawayButton = ({ layawayId }: { layawayId: number }) => {
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button variant="solid" color="red">
+            <Button
+              variant="solid"
+              color="red"
+              onClick={async () => {
+                await axios.delete("/api/layaways/" + layawayId);
+                router.push("/layaways");
+                router.refresh();
+              }}
+            >
               Delete
             </Button>
           </AlertDialog.Action>
