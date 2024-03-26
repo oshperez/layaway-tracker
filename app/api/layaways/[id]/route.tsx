@@ -31,3 +31,18 @@ export async function PATCH(
 
   return NextResponse.json(updatedLayaway, { status: 200 });
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const layaway = await prisma.layaway.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!layaway)
+    return NextResponse.json({ error: "Invalid layaway" }, { status: 404 });
+
+  await prisma.layaway.delete({ where: { id: layaway.id } });
+  return NextResponse.json({});
+}
