@@ -48,14 +48,14 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
         </Callout.Root>
       )}
       <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
-        <TextField.Input
+        <TextField.Root
           defaultValue={layaway?.customerName}
           placeholder="Full Name"
           {...register("customerName")}
         />
         <ErrorMessage>{errors.customerName?.message}</ErrorMessage>
 
-        <TextField.Input
+        <TextField.Root
           defaultValue={layaway?.customerPhone}
           placeholder="Phone"
           {...register("customerPhone")}
