@@ -57,7 +57,6 @@ const NavLinks = () => {
 
 const AuthStatus = () => {
   const { status, data: session } = useSession();
-
   const menuLinks = [
     { label: "Profile", href: "/user/profile", icon: <PersonIcon /> },
     { label: "Sign out", href: "/api/auth/signout", icon: <ExitIcon /> },
@@ -75,13 +74,15 @@ const AuthStatus = () => {
     <Box>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-          <Avatar
-            src={session!.user!.image!}
-            fallback=":)"
-            size="2"
-            radius="full"
-            className="cursor-pointer"
-          />
+          <Box>
+            <Avatar
+              src={session!.user!.image!}
+              fallback={session?.user?.name?.slice(0, 2).toUpperCase() || ""}
+              size="2"
+              radius="full"
+              className="cursor-pointer"
+            />
+          </Box>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           {menuLinks.map((link) => (
