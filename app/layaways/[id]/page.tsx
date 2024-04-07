@@ -4,12 +4,15 @@ import { notFound } from "next/navigation";
 import EditLayawayButton from "./EditLayawayButton";
 import LayawayDetails from "./LayawayDetails";
 import DeleteLayawayButton from "./DeleteLayawayButton";
+import { getServerSession } from "next-auth";
 
 interface Props {
   params: { id: string };
 }
 
 const LayawayDetailPage = async ({ params }: Props) => {
+  const session = await getServerSession();
+
   const layaway = await prisma.layaway.findUnique({
     where: { id: parseInt(params.id) },
   });
@@ -21,12 +24,14 @@ const LayawayDetailPage = async ({ params }: Props) => {
       <Box className="md:col-span-4">
         <LayawayDetails layaway={layaway} />
       </Box>
-      <Box>
-        <Flex direction="column" gap="3">
-          <EditLayawayButton layawayId={layaway.id} />
-          <DeleteLayawayButton layawayId={layaway.id} />
-        </Flex>
-      </Box>
+      {session && (
+        <Box>
+          <Flex direction="column" gap="3">
+            <EditLayawayButton layawayId={layaway.id} />
+            <DeleteLayawayButton layawayId={layaway.id} />
+          </Flex>
+        </Box>
+      )}
     </Grid>
   );
 };

@@ -1,13 +1,18 @@
+import authOptions from "@/app/auth/authOptions";
 import { layawaySchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { data } from "autoprefixer";
 import { error } from "console";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   const body = await request.json();
   const validation = layawaySchema.safeParse(body);
 
@@ -36,6 +41,9 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   const layaway = await prisma.layaway.findUnique({
     where: { id: parseInt(params.id) },
   });
