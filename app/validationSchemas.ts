@@ -7,7 +7,7 @@ export const layawaySchema = z.object({
 });
 
 export const userSchema = z.object({
-  name: z.string().min(5, "Name is required").max(255),
+  name: z.string().min(5, "Name is required").max(255).optional(),
   email: z.string().email("Email is required"),
   password: z.string().min(5, "Password is required"),
 });
