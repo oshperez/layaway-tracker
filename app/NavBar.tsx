@@ -29,6 +29,7 @@ const NavLinks = () => {
   const menuLinks = [
     { label: "Dashboard", href: "/" },
     { label: "Layaways", href: "/layaways" },
+    { label: "Customers", href: "/customers" },
   ];
 
   return (
