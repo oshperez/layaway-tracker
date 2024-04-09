@@ -5,6 +5,7 @@ import { customerSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Button, Callout, Flex, TextField } from "@radix-ui/themes";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,10 +21,13 @@ const NewCustomerPage = () => {
   } = useForm<CustomerFormData>({
     resolver: zodResolver(customerSchema),
   });
+  const router = useRouter();
 
   const addCustomer: SubmitHandler<CustomerFormData> = async (data) => {
     try {
       await axios.post("/api/customers", data);
+      router.push("/customers");
+      router.refresh();
     } catch (error) {
       setSubmissionError("An unexpected error has occured");
     }
