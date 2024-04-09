@@ -1,15 +1,10 @@
-import prisma from "@/prisma/client";
-import { Button, Table, Text } from "@radix-ui/themes";
-import delay from "delay";
-import Link from "next/link";
+import { Table } from "@radix-ui/themes";
+import React from "react";
 import CustomerActions from "./CustomerActions";
+import { Skeleton } from "@/app/components";
 
-const CustomerPage = async () => {
-  const customers = await prisma.customer.findMany();
-
-  if (!customers) return <Text>No customers to show</Text>;
-
-  await delay(2000);
+const LoadingCustomerPage = () => {
+  const customers = [1, 2, 3, 4, 5];
 
   return (
     <>
@@ -25,11 +20,19 @@ const CustomerPage = async () => {
         </Table.Header>
         <Table.Body>
           {customers.map((customer) => (
-            <Table.Row key={customer.name}>
-              <Table.Cell>{customer.name}</Table.Cell>
-              <Table.Cell>{customer.phone}</Table.Cell>
-              <Table.Cell>{Math.floor(Math.random() * 10)}</Table.Cell>
-              <Table.Cell>{customer.createdAt.toDateString()}</Table.Cell>
+            <Table.Row key={customer}>
+              <Table.Cell>
+                <Skeleton />
+              </Table.Cell>
+              <Table.Cell>
+                <Skeleton />
+              </Table.Cell>
+              <Table.Cell>
+                <Skeleton />
+              </Table.Cell>
+              <Table.Cell>
+                <Skeleton />
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
@@ -38,4 +41,4 @@ const CustomerPage = async () => {
   );
 };
 
-export default CustomerPage;
+export default LoadingCustomerPage;
