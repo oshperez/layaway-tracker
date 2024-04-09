@@ -1,7 +1,7 @@
 import prisma from "@/prisma/client";
 import { Button, Table, Text } from "@radix-ui/themes";
 import delay from "delay";
-import Link from "next/link";
+import { Link } from "@/app/components";
 import CustomerActions from "./CustomerActions";
 
 const CustomerPage = async () => {
@@ -25,8 +25,10 @@ const CustomerPage = async () => {
         </Table.Header>
         <Table.Body>
           {customers.map((customer) => (
-            <Table.Row key={customer.name}>
-              <Table.Cell>{customer.name}</Table.Cell>
+            <Table.Row key={customer.id}>
+              <Table.Cell>
+                <Link href={`/customers/${customer.id}`}>{customer.name}</Link>
+              </Table.Cell>
               <Table.Cell>{customer.phone}</Table.Cell>
               <Table.Cell>{Math.floor(Math.random() * 10)}</Table.Cell>
               <Table.Cell>{customer.createdAt.toDateString()}</Table.Cell>
