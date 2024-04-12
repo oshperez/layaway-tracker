@@ -23,5 +23,21 @@ export async function PATCH(
     where: { id: customer.id },
     data: { name, phone },
   });
+
   return NextResponse.json(updatedCustomer, { status: 200 });
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const customer = await prisma.customer.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+
+  if (!customer)
+    return NextResponse.json({ error: "Invalid customer" }, { status: 404 });
+
+  await prisma.customer.delete({ where: { id: customer.id } });
+  return NextResponse.json({});
 }
