@@ -137,4 +137,5 @@ const CustomerDetailPage = async ({ params }: Props) => {
   );
 };
 
+export const dynamic = "force-dynamic";
 export default CustomerDetailPage;
