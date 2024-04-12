@@ -12,6 +12,7 @@ import {
   Tabs,
   Text,
 } from "@radix-ui/themes";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -89,7 +90,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
             <Flex direction={{ xs: "column" }} gap="3">
               <Button>
                 <Pencil2Icon />
-                Edit
+                <Link href={`/customers/${customer.id}/edit`}>Edit</Link>
               </Button>
               <Button color="red">
                 <TrashIcon />

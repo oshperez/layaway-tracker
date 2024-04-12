@@ -13,7 +13,6 @@ const EditLayawayPage = async ({ params }: Props) => {
 
   if (!layaway) notFound();
 
-  console.log(params.id);
   return <LayawayForm layaway={layaway} />;
 };
 

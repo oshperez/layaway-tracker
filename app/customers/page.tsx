@@ -1,15 +1,12 @@
-import prisma from "@/prisma/client";
-import { Button, Table, Text } from "@radix-ui/themes";
-import delay from "delay";
 import { Link } from "@/app/components";
+import prisma from "@/prisma/client";
+import { Table, Text } from "@radix-ui/themes";
 import CustomerActions from "./CustomerActions";
 
 const CustomerPage = async () => {
   const customers = await prisma.customer.findMany();
 
   if (!customers) return <Text>No customers to show</Text>;
-
-  await delay(2000);
 
   return (
     <>
