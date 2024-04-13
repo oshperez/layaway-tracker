@@ -1,3 +1,4 @@
+import { DeleteButton } from "@/app/components";
 import prisma from "@/prisma/client";
 import { BackpackIcon, Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
 import {
@@ -92,10 +93,10 @@ const CustomerDetailPage = async ({ params }: Props) => {
                 <Pencil2Icon />
                 <Link href={`/customers/${customer.id}/edit`}>Edit</Link>
               </Button>
-              <Button color="red">
-                <TrashIcon />
-                Delete
-              </Button>
+              <DeleteButton
+                targetId={customer.id.toString()}
+                target="customer"
+              />
             </Flex>
           </Flex>
         </Card>
