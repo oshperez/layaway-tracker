@@ -1,25 +1,36 @@
 "use client";
 
+import { Skeleton } from "@/app/components";
+import { Customer } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-
-// Dummy data
-const actors = [
-  { id: 1, name: "Tom Cruise" },
-  { id: 2, name: "Nicolas Cage" },
-  { id: 3, name: "Liam Neeson" },
-  { id: 4, name: "John Smith" },
-];
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const LayawayCustomerSelect = () => {
+  const {
+    data: customers,
+    error,
+    isLoading,
+  } = useQuery<Customer[]>({
+    queryKey: ["customers"],
+    queryFn: () => axios.get("/api/customers").then((res) => res.data),
+    staleTime: 60 * 1000, // 60s
+    retry: 3,
+  });
+
+  if (error) return null;
+
+  if (isLoading) return <Skeleton />;
+
   return (
     <Select.Root>
       <Select.Trigger placeholder="Select customer" />
       <Select.Content position="popper">
         <Select.Group>
           <Select.Label>Customers</Select.Label>
-          {actors.map((actor) => (
-            <Select.Item key={actor.id} value={actor.id.toString()}>
-              {actor.name}
+          {customers?.map((customer) => (
+            <Select.Item key={customer.id} value={customer.id.toString()}>
+              {customer.name}
             </Select.Item>
           ))}
         </Select.Group>

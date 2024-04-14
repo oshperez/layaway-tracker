@@ -2,6 +2,13 @@ import { customerSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET(request: NextRequest) {
+  const customers = await prisma.customer.findMany({
+    orderBy: { name: "asc" },
+  });
+  return NextResponse.json(customers);
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
