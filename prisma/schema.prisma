@@ -18,6 +18,8 @@ model Layaway {
   status        Status   @default(OPEN)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  customerId    Int
+  customer      Customer @relation(fields: [customerId], references: [id])
 }
 
 enum Status {
@@ -26,11 +28,12 @@ enum Status {
 }
 
 model Customer {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(255)
-  phone     String   @unique @db.VarChar(255)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  phone     String    @unique @db.VarChar(255)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  layaways  Layaway[]
 }
 
 model Account {
