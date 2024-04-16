@@ -13,11 +13,18 @@ export async function POST(request: NextRequest) {
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
 
+  const customer = await prisma.customer.findUnique({
+    where: { id: parseInt(body.customerId) },
+  });
+  if (!customer)
+    return NextResponse.json({ error: "Invalid user" }, { status: 401 });
+
   const newLayaway = await prisma.layaway.create({
     data: {
       customerName: body.customerName,
       customerPhone: body.customerPhone,
       description: body.description,
+      customerId: customer.id,
     },
   });
 

@@ -6,7 +6,12 @@ import { Select } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const LayawayCustomerSelect = () => {
+interface Props {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const LayawayCustomerSelect = ({ value, onChange }: Props) => {
   const {
     data: customers,
     error,
@@ -23,7 +28,7 @@ const LayawayCustomerSelect = () => {
   if (isLoading) return <Skeleton />;
 
   return (
-    <Select.Root>
+    <Select.Root value={value} onValueChange={onChange}>
       <Select.Trigger placeholder="Select customer" />
       <Select.Content position="popper">
         <Select.Group>
