@@ -33,6 +33,9 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<LayawayFormData>({
+    defaultValues: {
+      customerId: layaway?.customerId.toString() || "",
+    },
     resolver: zodResolver(layawaySchema),
   });
 
@@ -88,9 +91,16 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
                   name="customerId"
                   control={control}
                   render={({ field: { value, onChange } }) => (
-                    <LayawayCustomerSelect value={value} onChange={onChange} />
+                    <LayawayCustomerSelect
+                      value={value}
+                      onChange={onChange}
+                      {...(layaway
+                        ? { customerId: String(layaway.customerId) }
+                        : {})}
+                    />
                   )}
                 />
+                <ErrorMessage>{errors.customerId?.message}</ErrorMessage>
               </Box>
             </Flex>
             <Box>

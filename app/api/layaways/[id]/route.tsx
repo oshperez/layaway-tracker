@@ -1,8 +1,6 @@
 import authOptions from "@/app/auth/authOptions";
 import { layawaySchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
-import { data } from "autoprefixer";
-import { error } from "console";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 

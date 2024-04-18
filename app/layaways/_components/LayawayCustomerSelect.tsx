@@ -8,10 +8,11 @@ import axios from "axios";
 
 interface Props {
   value: string;
+  customerId?: string;
   onChange: (value: string) => void;
 }
 
-const LayawayCustomerSelect = ({ value, onChange }: Props) => {
+const LayawayCustomerSelect = ({ value, onChange, customerId }: Props) => {
   const {
     data: customers,
     error,
@@ -28,7 +29,12 @@ const LayawayCustomerSelect = ({ value, onChange }: Props) => {
   if (isLoading) return <Skeleton />;
 
   return (
-    <Select.Root value={value} onValueChange={onChange}>
+    <Select.Root
+      {...(customerId ? { defaultValue: customerId } : {})}
+      value={value}
+      onValueChange={onChange}
+      disabled={customerId ? true : false}
+    >
       <Select.Trigger placeholder="Select customer" />
       <Select.Content position="popper">
         <Select.Group>
