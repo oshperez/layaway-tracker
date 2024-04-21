@@ -1,7 +1,7 @@
 "use client";
 
 import { TrashIcon } from "@radix-ui/react-icons";
-import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import { AlertDialog, Button, Flex, IconButton } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,10 +23,9 @@ const DeleteLayawayButton = ({ layawayId }: { layawayId: number }) => {
     <>
       <AlertDialog.Root>
         <AlertDialog.Trigger>
-          <Button color="red">
-            <TrashIcon height="16" width="16" />
-            Delete layaway
-          </Button>
+          <IconButton variant="outline" color="red">
+            <TrashIcon />
+          </IconButton>
         </AlertDialog.Trigger>
         <AlertDialog.Content>
           <AlertDialog.Title>Confirm delation</AlertDialog.Title>

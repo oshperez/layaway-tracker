@@ -16,6 +16,7 @@ export async function PATCH(
 
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
+
   const layaway = await prisma.layaway.findUnique({
     where: { id: parseInt(params.id) },
   });

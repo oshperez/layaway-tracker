@@ -6,9 +6,14 @@ interface Props {
   status: Status;
 }
 
-const statusMap: Record<Status, { label: string; color: "red" | "green" }> = {
+const statusMap: Record<
+  Status,
+  { label: string; color: "red" | "green" | "violet" | "blue" }
+> = {
   OPEN: { label: "Open", color: "green" },
-  CLOSE: { label: "Close", color: "red" },
+  PAID: { label: "Paid", color: "violet" },
+  OVERDUE: { label: "Overdue", color: "red" },
+  CLOSE: { label: "Close", color: "blue" },
 };
 
 const LayawayStatusBadge = ({ status }: Props) => {

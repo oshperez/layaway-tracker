@@ -1,13 +1,19 @@
+"use client";
+
 import { Pencil2Icon } from "@radix-ui/react-icons";
-import { Button } from "@radix-ui/themes";
-import Link from "next/link";
+import { IconButton } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 
 const EditLayawayButton = ({ layawayId }: { layawayId: number }) => {
+  const router = useRouter();
+
   return (
-    <Button>
+    <IconButton
+      variant="solid"
+      onClick={() => router.push(`/layaways/${layawayId}/edit`)}
+    >
       <Pencil2Icon />
-      <Link href={`/layaways/${layawayId}/edit`}>Edit layaway</Link>
-    </Button>
+    </IconButton>
   );
 };
 

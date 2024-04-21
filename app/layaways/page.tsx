@@ -14,16 +14,17 @@ const Layaways = async () => {
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.RowHeaderCell>Item</Table.RowHeaderCell>
-            <Table.RowHeaderCell className="hidden lg:table-cell">
+            <Table.ColumnHeaderCell>Item</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="hidden lg:table-cell">
               Customer
-            </Table.RowHeaderCell>
-            <Table.RowHeaderCell className="hidden md:table-cell">
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Package code</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="hidden md:table-cell">
               Status
-            </Table.RowHeaderCell>
-            <Table.RowHeaderCell>Outstanding</Table.RowHeaderCell>
-            <Table.RowHeaderCell>Reminder</Table.RowHeaderCell>
-            <Table.RowHeaderCell>Created</Table.RowHeaderCell>
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Outstanding</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Reminder</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell>Created</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -38,12 +39,19 @@ const Layaways = async () => {
               <Table.Cell className="hidden lg:table-cell">
                 {layaway.customer.name}
               </Table.Cell>
+              <Table.Cell>{layaway.packageCode}</Table.Cell>
               <Table.Cell className="hidden md:table-cell">
                 <LayawayStatusBadge status={layaway.status} />
               </Table.Cell>
-              <Table.Cell>1220</Table.Cell>
+              <Table.Cell>$1220</Table.Cell>
               <Table.Cell>{layaway.setReminder ? "ON" : "OFF"}</Table.Cell>
-              <Table.Cell>{layaway.createdAt.toDateString()}</Table.Cell>
+              <Table.Cell>
+                {layaway.createdAt.toLocaleDateString("en-us", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
