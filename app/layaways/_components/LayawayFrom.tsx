@@ -2,7 +2,6 @@
 
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import LayawayCustomerSelect from "./LayawayCustomerSelect";
 import { layawaySchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Layaway } from "@prisma/client";
@@ -12,14 +11,16 @@ import {
   Callout,
   Flex,
   Grid,
+  Switch,
+  Text,
   TextArea,
   TextField,
 } from "@radix-ui/themes";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import LayawayCustomerSelect from "./LayawayCustomerSelect";
 
 type LayawayFormData = z.infer<typeof layawaySchema>;
 
@@ -35,18 +36,20 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
   } = useForm<LayawayFormData>({
     defaultValues: {
       customerId: layaway?.customerId.toString() || "",
+      setReminder: true,
     },
     resolver: zodResolver(layawaySchema),
   });
 
   // Handle submit event
   const onSubmit: SubmitHandler<LayawayFormData> = async (data) => {
+    console.log({ data });
     try {
-      setSubmiting(true);
-      if (layaway) await axios.patch("/api/layaways/" + layaway.id, data);
-      else await axios.post("/api/layaways", data);
-      router.push("/layaways");
-      router.refresh();
+      // setSubmiting(true);
+      // if (layaway) await axios.patch("/api/layaways/" + layaway.id, data);
+      // else await axios.post("/api/layaways", data);
+      // router.push("/layaways");
+      // router.refresh();
     } catch (error) {
       setSubmiting(false);
       setError("An unexpected error has occurred.");
@@ -61,32 +64,68 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
             <Callout.Text>{error}</Callout.Text>
           </Callout.Root>
         )}
-        <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
-          <Grid rows="2" gap="5">
-            <Flex gap="9" justify="between">
-              <Flex direction="column" gap="3" flexGrow="1" maxWidth="600px">
-                <TextField.Root
-                  defaultValue={layaway?.customerName}
-                  placeholder="Full Name"
-                  {...register("customerName")}
-                />
-                <ErrorMessage>{errors.customerName?.message}</ErrorMessage>
-
-                <TextField.Root
-                  defaultValue={layaway?.customerPhone}
-                  placeholder="Phone"
-                  {...register("customerPhone")}
-                />
-                <ErrorMessage>{errors.customerPhone?.message}</ErrorMessage>
-
-                <TextArea
-                  defaultValue={layaway?.description}
-                  placeholder="Add a description"
-                  {...register("description")}
-                />
-                <ErrorMessage>{errors.description?.message}</ErrorMessage>
-              </Flex>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid rows="repeat(2, auto)" columns="repeat(2, 1fr)" gap="5">
+            <Flex direction="column" gap="3">
               <Box>
+                <Text as="div" mb="1" size="2" weight="bold">
+                  Item:
+                </Text>
+                <TextField.Root
+                  type="text"
+                  defaultValue={layaway?.item}
+                  placeholder="Add item here"
+                  {...register("item")}
+                />
+                <ErrorMessage>{errors.item?.message}</ErrorMessage>
+              </Box>
+              <Box>
+                <Text as="div" mb="1" size="2" weight="bold">
+                  Value
+                </Text>
+                <TextField.Root
+                  type="number"
+                  defaultValue={layaway?.value.toString()}
+                  placeholder="Add item value here"
+                  {...register("value", { valueAsNumber: true })}
+                >
+                  <TextField.Slot>
+                    <Text color="gray">$</Text>
+                  </TextField.Slot>
+                </TextField.Root>
+                <ErrorMessage>{errors.value?.message}</ErrorMessage>
+              </Box>
+              <Box>
+                <Text as="div" mb="1" size="2" weight="bold">
+                  Down Payment
+                </Text>
+                <TextField.Root
+                  type="number"
+                  defaultValue={layaway?.downPayment.toString()}
+                  placeholder="Add down payment here"
+                  {...register("downPayment", { valueAsNumber: true })}
+                >
+                  <TextField.Slot>
+                    <Text color="gray">$</Text>
+                  </TextField.Slot>
+                </TextField.Root>
+                <ErrorMessage>{errors.downPayment?.message}</ErrorMessage>
+              </Box>
+              <Box>
+                <Text as="div" mb="1" size="2" weight="bold">
+                  Package code
+                </Text>
+                <TextField.Root
+                  type="text"
+                  defaultValue={layaway?.packageCode}
+                  placeholder="Add package code here"
+                  {...register("packageCode")}
+                />
+                <ErrorMessage>{errors.packageCode?.message}</ErrorMessage>
+              </Box>
+            </Flex>
+            <Flex direction="column" gap="3">
+              <Box ml="auto">
                 <Controller
                   name="customerId"
                   control={control}
@@ -102,10 +141,38 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
                 />
                 <ErrorMessage>{errors.customerId?.message}</ErrorMessage>
               </Box>
+              <Box>
+                <Text as="div" mb="1" size="2" weight="bold">
+                  Description
+                </Text>
+                <TextArea
+                  defaultValue={layaway?.description}
+                  placeholder="Add a description"
+                  {...register("description")}
+                />
+                <ErrorMessage>{errors.description?.message}</ErrorMessage>
+              </Box>
+              <Controller
+                name="setReminder"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <Text as="label">
+                    <Flex gap="2">
+                      <Switch
+                        checked={value}
+                        onCheckedChange={onChange}
+                        defaultChecked
+                      />
+                      Remind customer when payment is overdue
+                    </Flex>
+                  </Text>
+                )}
+              />
             </Flex>
-            <Box>
+
+            <Box className="col-start-1 row-start-2">
               <Button disabled={isSubmiting} type="submit">
-                {layaway ? "Update layaway" : "Submit new layaway"}{" "}
+                {layaway ? "Update layaway" : "Submit layaway"}{" "}
                 {isSubmiting && <Spinner />}
               </Button>
             </Box>
