@@ -1,5 +1,5 @@
 import authOptions from "@/app/auth/authOptions";
-import { layawaySchema } from "@/app/validationSchemas";
+import { patchLayawaySchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -12,7 +12,7 @@ export async function PATCH(
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const body = await request.json();
-  const validation = layawaySchema.safeParse(body);
+  const validation = patchLayawaySchema.safeParse(body);
 
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
@@ -27,9 +27,7 @@ export async function PATCH(
   const updatedLayaway = await prisma.layaway.update({
     where: { id: layaway.id },
     data: {
-      customerName: body.customerName,
-      customerPhone: body.customerPhone,
-      description: body.description,
+      ...body,
     },
   });
 

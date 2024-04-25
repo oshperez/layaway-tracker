@@ -9,6 +9,22 @@ export const layawaySchema = z.object({
   setReminder: z.boolean(),
   customerId: z.string().min(1, "Customer id is required"),
 });
+export const patchLayawaySchema = z.object({
+  item: z.string().min(1, "Item is required").max(255).optional(),
+  description: z
+    .string()
+    .min(5, "Description is required")
+    .max(65535)
+    .optional(),
+  value: z.number().min(1, "Value is required").optional(),
+  downPayment: z.number().min(1, "Down Payment is required").optional(),
+  packageCode: z
+    .string()
+    .min(1, "Package code is required")
+    .max(255)
+    .optional(),
+  setReminder: z.boolean().optional(),
+});
 
 export const userSchema = z.object({
   name: z.string().min(5, "Name is required").max(255).optional(),

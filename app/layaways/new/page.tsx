@@ -1,4 +1,4 @@
-import { Card, Grid, Text, Flex } from "@radix-ui/themes";
+import { Card, Text } from "@radix-ui/themes";
 import LayawayForm from "../_components/LayawayFrom";
 
 const NewLayawayPage = () => {

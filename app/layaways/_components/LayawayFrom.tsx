@@ -4,7 +4,6 @@ import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 import { layawaySchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Layaway } from "@prisma/client";
 import {
   Box,
   Button,
@@ -16,6 +15,7 @@ import {
   TextArea,
   TextField,
 } from "@radix-ui/themes";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -24,7 +24,7 @@ import LayawayCustomerSelect from "./LayawayCustomerSelect";
 
 type LayawayFormData = z.infer<typeof layawaySchema>;
 
-const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
+const LayawayForm = () => {
   const [error, setError] = useState("");
   const [isSubmiting, setSubmiting] = useState(false);
   const router = useRouter();
@@ -35,7 +35,6 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
     formState: { errors },
   } = useForm<LayawayFormData>({
     defaultValues: {
-      customerId: layaway?.customerId.toString() || "",
       setReminder: true,
     },
     resolver: zodResolver(layawaySchema),
@@ -43,13 +42,11 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
 
   // Handle submit event
   const onSubmit: SubmitHandler<LayawayFormData> = async (data) => {
-    console.log({ data });
     try {
-      // setSubmiting(true);
-      // if (layaway) await axios.patch("/api/layaways/" + layaway.id, data);
-      // else await axios.post("/api/layaways", data);
-      // router.push("/layaways");
-      // router.refresh();
+      setSubmiting(true);
+      await axios.post("/api/layaways", data);
+      router.push("/layaways");
+      router.refresh();
     } catch (error) {
       setSubmiting(false);
       setError("An unexpected error has occurred.");
@@ -73,7 +70,6 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
                 </Text>
                 <TextField.Root
                   type="text"
-                  defaultValue={layaway?.item}
                   placeholder="Add item here"
                   {...register("item")}
                 />
@@ -85,7 +81,6 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
                 </Text>
                 <TextField.Root
                   type="number"
-                  defaultValue={layaway?.value.toString()}
                   placeholder="Add item value here"
                   {...register("value", { valueAsNumber: true })}
                 >
@@ -101,7 +96,6 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
                 </Text>
                 <TextField.Root
                   type="number"
-                  defaultValue={layaway?.downPayment.toString()}
                   placeholder="Add down payment here"
                   {...register("downPayment", { valueAsNumber: true })}
                 >
@@ -117,7 +111,6 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
                 </Text>
                 <TextField.Root
                   type="text"
-                  defaultValue={layaway?.packageCode}
                   placeholder="Add package code here"
                   {...register("packageCode")}
                 />
@@ -130,13 +123,7 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
                   name="customerId"
                   control={control}
                   render={({ field: { value, onChange } }) => (
-                    <LayawayCustomerSelect
-                      value={value}
-                      onChange={onChange}
-                      {...(layaway
-                        ? { customerId: String(layaway.customerId) }
-                        : {})}
-                    />
+                    <LayawayCustomerSelect value={value} onChange={onChange} />
                   )}
                 />
                 <ErrorMessage>{errors.customerId?.message}</ErrorMessage>
@@ -146,7 +133,6 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
                   Description
                 </Text>
                 <TextArea
-                  defaultValue={layaway?.description}
                   placeholder="Add a description"
                   {...register("description")}
                 />
@@ -172,8 +158,7 @@ const LayawayForm = ({ layaway }: { layaway?: Layaway }) => {
 
             <Box className="col-start-1 row-start-2">
               <Button disabled={isSubmiting} type="submit">
-                {layaway ? "Update layaway" : "Submit layaway"}{" "}
-                {isSubmiting && <Spinner />}
+                Create layaway {isSubmiting && <Spinner />}
               </Button>
             </Box>
           </Grid>
