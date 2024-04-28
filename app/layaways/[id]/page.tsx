@@ -20,6 +20,7 @@ import { BiDiamond } from "react-icons/bi";
 import DeleteLayawayButton from "./DeleteLayawayButton";
 import EditLayawayDialog from "./EditLayawayDialog";
 import ReminderSwitch from "../_components/ReminderSwitch";
+import LayawayOutstandingProgress from "../_components/LayawayOutstandingProgress";
 
 interface Props {
   params: { id: string };
@@ -122,12 +123,7 @@ const LayawayDetailPage = async ({ params }: Props) => {
                   <DataList.Item align="center">
                     <DataList.Label>Outstanding</DataList.Label>
                     <DataList.Value>
-                      <Flex width="90%" gap="2" align="center">
-                        <Box flexGrow="1">
-                          <Progress value={25} />
-                        </Box>
-                        <Box>$1500</Box>
-                      </Flex>
+                      <LayawayOutstandingProgress layaway={layaway} />
                     </DataList.Value>
                   </DataList.Item>
                 </DataList.Root>
