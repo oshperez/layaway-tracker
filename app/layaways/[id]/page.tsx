@@ -19,6 +19,7 @@ import { notFound } from "next/navigation";
 import { BiDiamond } from "react-icons/bi";
 import DeleteLayawayButton from "./DeleteLayawayButton";
 import EditLayawayDialog from "./EditLayawayDialog";
+import ReminderSwitch from "../_components/ReminderSwitch";
 
 interface Props {
   params: { id: string };
@@ -115,7 +116,7 @@ const LayawayDetailPage = async ({ params }: Props) => {
                   <DataList.Item>
                     <DataList.Label>Reminder</DataList.Label>
                     <DataList.Value>
-                      <Switch checked={layaway.setReminder} size="1" />
+                      <ReminderSwitch layaway={layaway} size="1" />
                     </DataList.Value>
                   </DataList.Item>
                   <DataList.Item align="center">

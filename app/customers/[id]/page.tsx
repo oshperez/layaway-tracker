@@ -38,7 +38,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
     <Grid columns={{ initial: "1", sm: "2" }} gap="3" minHeight="">
       <Grid rows="auto 1fr" width="auto" gap="3">
         <Grid columns="1.5fr 1fr" gap="3">
-          <Card className="p-4">
+          <Card className="p-4" size="2">
             <Text as="div" weight="bold" size="5">
               {customer.name}
             </Text>
@@ -50,7 +50,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
               })}
             </Text>
           </Card>
-          <Card>
+          <Card size="2">
             <Flex justify="between" align="center">
               <Box>
                 <Text as="div" mb="2">
@@ -64,7 +64,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
             </Flex>
           </Card>
         </Grid>
-        <Card>
+        <Card size="2">
           <Flex
             direction={{ initial: "column", xs: "row" }}
             justify="between"
@@ -101,7 +101,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
           </Flex>
         </Card>
       </Grid>
-      <Card>
+      <Card size="2">
         <Tabs.Root defaultValue="layaway-list">
           <Tabs.List mb="3">
             <Tabs.Trigger value="layaway-list">Layaway list</Tabs.Trigger>

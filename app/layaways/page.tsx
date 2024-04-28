@@ -2,6 +2,7 @@ import { LayawayStatusBadge, Link } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
 import LayawayActions from "./LayawayActions";
+import ReminderSwitch from "./_components/ReminderSwitch";
 
 const Layaways = async () => {
   const layaways = await prisma.layaway.findMany({
@@ -44,7 +45,9 @@ const Layaways = async () => {
                 <LayawayStatusBadge status={layaway.status} />
               </Table.Cell>
               <Table.Cell>$1220</Table.Cell>
-              <Table.Cell>{layaway.setReminder ? "ON" : "OFF"}</Table.Cell>
+              <Table.Cell>
+                <ReminderSwitch layaway={layaway} size="1" />
+              </Table.Cell>
               <Table.Cell>
                 {layaway.createdAt.toLocaleDateString("en-us", {
                   day: "numeric",
