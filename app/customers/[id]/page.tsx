@@ -15,21 +15,22 @@ import {
 } from "@radix-ui/themes";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import LayawayList from "./LayawayList";
 
 interface Props {
   params: { id: string };
 }
 
-// Dummy data
-const layaways = [
-  { item: "Gold chain", staus: "open", createdAt: new Date(2021, 10, 12) },
-  { item: "Diamond necklace", staus: "open", createdAt: new Date(2020, 1, 5) },
-  { item: "Earings", staus: "close", createdAt: new Date(2020, 2, 10) },
-];
-
 const CustomerDetailPage = async ({ params }: Props) => {
   const customer = await prisma.customer.findUnique({
     where: { id: parseInt(params.id) },
+    include: {
+      layaways: {
+        select: {
+          id: true,
+        },
+      },
+    },
   });
 
   if (!customer) notFound();
@@ -42,7 +43,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
             <Text as="div" weight="bold" size="5">
               {customer.name}
             </Text>
-            <Text as="div" color="gray">
+            <Text as="div" color="gray" size="2">
               Customer since{" "}
               {customer.createdAt.toLocaleDateString("en", {
                 month: "long",
@@ -57,7 +58,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
                   Total Layaways
                 </Text>
                 <Text size="5" weight="bold" align="center">
-                  {Math.floor(Math.random() * 10)}
+                  {customer.layaways.length}
                 </Text>
               </Box>
               <BackpackIcon width="30px" height="30px" />
@@ -70,7 +71,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
             justify="between"
             gap="5"
           >
-            <DataList.Root size="3">
+            <DataList.Root size="2">
               <DataList.Item align="center">
                 <DataList.Label>Phone</DataList.Label>
                 <DataList.Value>{customer.phone}</DataList.Value>
@@ -108,28 +109,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
             <Tabs.Trigger value="payment-history">Payment history</Tabs.Trigger>
           </Tabs.List>
           <Tabs.Content value="layaway-list">
-            <Table.Root>
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeaderCell>Item</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell>Created at</Table.ColumnHeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {layaways.map((layaway, index) => (
-                  <Table.Row key={index}>
-                    <Table.Cell>{layaway.item}</Table.Cell>
-                    <Table.Cell>
-                      <Badge color={layaway.staus === "open" ? "green" : "red"}>
-                        {layaway.staus}
-                      </Badge>
-                    </Table.Cell>
-                    <Table.Cell>{layaway.createdAt.toDateString()}</Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table.Root>
+            <LayawayList customerId={customer.id} />
           </Tabs.Content>
           <Tabs.Content value="payment-history">Payment history</Tabs.Content>
         </Tabs.Root>
