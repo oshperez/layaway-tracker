@@ -4,7 +4,7 @@ import { ErrorMessage, Spinner } from "@/app/components";
 import { customerSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Customer } from "@prisma/client";
-import { Box, Button, Callout, Flex, TextField } from "@radix-ui/themes";
+import { Box, Button, Callout, Flex, Text, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,7 +13,7 @@ import { z } from "zod";
 
 type CustomerFormData = z.infer<typeof customerSchema>;
 
-const CustomerForm = ({ customer }: { customer?: Customer }) => {
+const CustomerForm = () => {
   const [submissionError, setSubmissionError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
 
@@ -29,8 +29,7 @@ const CustomerForm = ({ customer }: { customer?: Customer }) => {
   const addCustomer: SubmitHandler<CustomerFormData> = async (data) => {
     try {
       setSubmitting(true);
-      if (customer) await axios.patch(`/api/customers/${customer.id}`, data);
-      else await axios.post("/api/customers", data);
+      await axios.post("/api/customers", data);
       router.push("/customers");
       router.refresh();
     } catch (error) {
@@ -49,37 +48,28 @@ const CustomerForm = ({ customer }: { customer?: Customer }) => {
       )}
       <form onSubmit={handleSubmit(addCustomer)}>
         <Flex direction="column" gap="4">
-          <Box>
-            <label className="text-zinc-600">Name:</label>
-            <TextField.Root
-              size="3"
-              defaultValue={customer?.name}
-              placeholder="Name"
-              mt="2"
-              {...register("name")}
-            />
-            <ErrorMessage>{errors.name?.message}</ErrorMessage>
-          </Box>
-          <Box>
-            <label className="text-zinc-600">Phone:</label>
-            <TextField.Root
-              size="3"
-              defaultValue={customer?.phone}
-              placeholder="Phone"
-              mt="2"
-              {...register("phone")}
-            />
-            <ErrorMessage>{errors.phone?.message}</ErrorMessage>
-          </Box>
+          <Text as="label">
+            <Text as="div" mb="1" weight="bold" size="2">
+              Name
+            </Text>
+            <TextField.Root placeholder="Name" mt="2" {...register("name")} />
+          </Text>
+          <ErrorMessage>{errors.name?.message}</ErrorMessage>
+          <Text as="label">
+            <Text as="div" mb="1" weight="bold" size="2">
+              Phone
+            </Text>
+            <TextField.Root placeholder="Phone" mt="2" {...register("phone")} />
+          </Text>
+          <ErrorMessage>{errors.phone?.message}</ErrorMessage>
         </Flex>
         <Button
-          size="3"
           type="submit"
           mt="4"
           disabled={isSubmitting}
           className="!cursor-pointer"
         >
-          {customer ? "Edit customer" : "Add customer"}{" "}
+          Add customer
           {isSubmitting && <Spinner />}
         </Button>
       </form>

@@ -36,3 +36,8 @@ export const customerSchema = z.object({
   name: z.string().min(5, "Name is required").max(255),
   phone: z.string().min(10, "Phone is required").max(255),
 });
+
+export const patchCustomerSchema = z.object({
+  name: z.string().min(5, "Name is required").max(255).optional(),
+  phone: z.string().min(10, "Phone is required").max(255).optional(),
+});

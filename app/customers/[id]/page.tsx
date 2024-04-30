@@ -1,20 +1,9 @@
 import { DeleteButton } from "@/app/components";
 import prisma from "@/prisma/client";
-import { BackpackIcon, Pencil2Icon, TrashIcon } from "@radix-ui/react-icons";
-import {
-  Badge,
-  Box,
-  Button,
-  Card,
-  DataList,
-  Flex,
-  Grid,
-  Table,
-  Tabs,
-  Text,
-} from "@radix-ui/themes";
-import Link from "next/link";
+import { BackpackIcon } from "@radix-ui/react-icons";
+import { Box, Card, DataList, Flex, Grid, Tabs, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
+import EditCustomerDialog from "./EditCustomerDialog";
 import LayawayList from "./LayawayList";
 
 interface Props {
@@ -90,10 +79,7 @@ const CustomerDetailPage = async ({ params }: Props) => {
               </DataList.Item>
             </DataList.Root>
             <Flex direction={{ xs: "column" }} gap="3">
-              <Button>
-                <Pencil2Icon />
-                <Link href={`/customers/${customer.id}/edit`}>Edit</Link>
-              </Button>
+              <EditCustomerDialog customer={customer} />
               <DeleteButton
                 targetId={customer.id.toString()}
                 target="customer"
