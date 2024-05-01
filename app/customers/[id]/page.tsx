@@ -78,12 +78,9 @@ const CustomerDetailPage = async ({ params }: Props) => {
                 <DataList.Value>$500</DataList.Value>
               </DataList.Item>
             </DataList.Root>
-            <Flex direction={{ xs: "column" }} gap="3">
+            <Flex gap="3">
               <EditCustomerDialog customer={customer} />
-              <DeleteButton
-                targetId={customer.id.toString()}
-                target="customer"
-              />
+              <DeleteButton target={customer} variant="outline" />
             </Flex>
           </Flex>
         </Card>

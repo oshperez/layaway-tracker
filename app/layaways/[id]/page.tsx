@@ -1,4 +1,3 @@
-import { LayawayStatusBadge, Link } from "@/app/components";
 import prisma from "@/prisma/client";
 import { CopyIcon } from "@radix-ui/react-icons";
 import {
@@ -10,17 +9,15 @@ import {
   Grid,
   Heading,
   IconButton,
-  Progress,
   Separator,
-  Switch,
   Text,
 } from "@radix-ui/themes";
+import { DeleteButton, LayawayStatusBadge, Link } from "@/app/components";
 import { notFound } from "next/navigation";
 import { BiDiamond } from "react-icons/bi";
-import DeleteLayawayButton from "./DeleteLayawayButton";
-import EditLayawayDialog from "./EditLayawayDialog";
-import ReminderSwitch from "../_components/ReminderSwitch";
 import LayawayOutstandingProgress from "../_components/LayawayOutstandingProgress";
+import ReminderSwitch from "../_components/ReminderSwitch";
+import EditLayawayDialog from "./EditLayawayDialog";
 
 interface Props {
   params: { id: string };
@@ -55,7 +52,7 @@ const LayawayDetailPage = async ({ params }: Props) => {
                   </Flex>
                   <Flex gap="2">
                     <EditLayawayDialog layaway={layaway} />
-                    <DeleteLayawayButton layawayId={layaway.id} />
+                    <DeleteButton target={layaway} variant="outline" />
                   </Flex>
                 </Flex>
                 <Separator size="4" />
