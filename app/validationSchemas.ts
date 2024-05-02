@@ -41,3 +41,10 @@ export const patchCustomerSchema = z.object({
   name: z.string().min(5, "Name is required").max(255).optional(),
   phone: z.string().min(10, "Phone is required").max(255).optional(),
 });
+
+export const paymentSchema = z.object({
+  amount: z.number().min(1, "Amount is required"),
+  paymentMethod: z.enum(["CARD", "CASH"]).optional().nullable(),
+  layawayId: z.string().min(1, "Layaway id is required"),
+  customerId: z.string().min(1, "Customer id is required"),
+});

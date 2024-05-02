@@ -11,18 +11,19 @@ datasource db {
 }
 
 model Layaway {
-  id          Int      @id @default(autoincrement())
-  item        String   @db.VarChar(255)
-  description String   @db.Text
-  value       Decimal  @db.Decimal(15, 2)
-  downPayment Decimal  @db.Decimal(15, 2)
-  status      Status   @default(OPEN)
-  packageCode String   @db.VarChar(255)
-  setReminder Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  item        String    @db.VarChar(255)
+  description String    @db.Text
+  value       Decimal   @db.Decimal(15, 2)
+  downPayment Decimal   @db.Decimal(15, 2)
+  status      Status    @default(OPEN)
+  packageCode String    @db.VarChar(255)
+  setReminder Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   customerId  Int
-  customer    Customer @relation(fields: [customerId], references: [id])
+  customer    Customer  @relation(fields: [customerId], references: [id])
+  Payment     Payment[]
 }
 
 enum Status {
@@ -39,6 +40,23 @@ model Customer {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   layaways  Layaway[]
+  Payment   Payment[]
+}
+
+model Payment {
+  id            Int            @id @default(autoincrement())
+  amount        Decimal        @db.Decimal(15, 2)
+  paymentMethod PaymentMethod?
+  date          DateTime       @default(now())
+  layaway       Layaway        @relation(fields: [layawayId], references: [id])
+  layawayId     Int
+  customer      Customer       @relation(fields: [customerId], references: [id])
+  customerId    Int
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
 }
 
 model Account {

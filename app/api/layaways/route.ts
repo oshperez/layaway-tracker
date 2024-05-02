@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
   });
 
   if (!customer)
-    return NextResponse.json({ error: "Invalid user" }, { status: 401 });
+    return NextResponse.json({ error: "Invalid customer" }, { status: 401 });
 
   const newLayaway = await prisma.layaway.create({
     data: {
