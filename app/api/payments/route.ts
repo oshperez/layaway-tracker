@@ -1,6 +1,5 @@
 import { paymentSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
-import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -15,7 +14,7 @@ export async function POST(request: NextRequest) {
 
   // Verify associated layaway
   const layaway = await prisma.layaway.findUnique({
-    where: { id: parseInt(layawayId) },
+    where: { id: layawayId },
   });
 
   if (!layaway) {
@@ -24,7 +23,7 @@ export async function POST(request: NextRequest) {
 
   // Verify associated customer
   const customer = await prisma.customer.findUnique({
-    where: { id: parseInt(customerId) },
+    where: { id: customerId },
   });
 
   if (!customer) {
@@ -35,8 +34,6 @@ export async function POST(request: NextRequest) {
   const payment = await prisma.payment.create({
     data: {
       ...body,
-      layawayId: layaway.id,
-      customerId: customer.id,
     },
   });
 

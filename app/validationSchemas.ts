@@ -44,7 +44,12 @@ export const patchCustomerSchema = z.object({
 
 export const paymentSchema = z.object({
   amount: z.number().min(1, "Amount is required"),
-  paymentMethod: z.enum(["CARD", "CASH"]).optional().nullable(),
-  layawayId: z.string().min(1, "Layaway id is required"),
-  customerId: z.string().min(1, "Customer id is required"),
+  paymentMethod: z.enum(["CARD", "CASH"]).nullable(),
+  layawayId: z.number().min(1, "Layaway id is required"),
+  customerId: z.number().min(1, "Customer id is required"),
+});
+
+export const paymentFormDataSchema = z.object({
+  amount: z.number().min(1, "Amount is required"),
+  paymentMethod: z.enum(["CARD", "CASH", "UNKNOWN"]),
 });

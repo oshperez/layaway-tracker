@@ -1,6 +1,7 @@
 "use client";
 
 import { patchLayawaySchema } from "@/app/validationSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Layaway } from "@prisma/client";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import {
@@ -37,6 +38,7 @@ const EditLayawayDialog = ({ layaway }: { layaway: Layaway }) => {
       description: layaway.description,
       setReminder: layaway.setReminder,
     },
+    resolver: zodResolver(patchLayawaySchema),
   });
 
   const onSubmit: SubmitHandler<EditLayawayData> = async (data) => {

@@ -18,6 +18,7 @@ import { BiDiamond } from "react-icons/bi";
 import LayawayOutstandingProgress from "../_components/LayawayOutstandingProgress";
 import ReminderSwitch from "../_components/ReminderSwitch";
 import EditLayawayDialog from "./EditLayawayDialog";
+import PaymentDialog from "./PaymentDialog";
 
 interface Props {
   params: { id: string };
@@ -130,7 +131,13 @@ const LayawayDetailPage = async ({ params }: Props) => {
         </Grid>
       </Box>
       <Card className="col-span-2" size="3">
-        <Heading size="4">Payment history</Heading>
+        <Flex justify="between">
+          <Heading size="4">Payment history</Heading>
+          <PaymentDialog
+            layawayId={layaway.id}
+            customerId={layaway.customerId}
+          />
+        </Flex>
       </Card>
     </Grid>
   );
