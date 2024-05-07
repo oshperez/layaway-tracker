@@ -13,6 +13,7 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -36,6 +37,8 @@ const PaymentDialog = ({ layawayId, customerId }: Props) => {
     },
     resolver: zodResolver(paymentFormDataSchema),
   });
+  const router = useRouter();
+
   const onSubmit: SubmitHandler<PaymentData> = async ({
     amount,
     paymentMethod,
@@ -49,6 +52,7 @@ const PaymentDialog = ({ layawayId, customerId }: Props) => {
 
     try {
       await axios.post("/api/payments", payload);
+      router.refresh();
     } catch (error) {
       console.log(error);
     }

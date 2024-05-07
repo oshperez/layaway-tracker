@@ -19,6 +19,7 @@ import LayawayOutstandingProgress from "../_components/LayawayOutstandingProgres
 import ReminderSwitch from "../_components/ReminderSwitch";
 import EditLayawayDialog from "./EditLayawayDialog";
 import PaymentDialog from "./PaymentDialog";
+import LayawayPaymentLog from "./LayawayPaymentLog";
 
 interface Props {
   params: { id: string };
@@ -131,13 +132,14 @@ const LayawayDetailPage = async ({ params }: Props) => {
         </Grid>
       </Box>
       <Card className="col-span-2" size="3">
-        <Flex justify="between">
+        <Flex justify="between" mb="3">
           <Heading size="4">Payment history</Heading>
           <PaymentDialog
             layawayId={layaway.id}
             customerId={layaway.customerId}
           />
         </Flex>
+        <LayawayPaymentLog layawayId={layaway.id} />
       </Card>
     </Grid>
   );

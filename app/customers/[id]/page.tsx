@@ -5,6 +5,7 @@ import { Box, Card, DataList, Flex, Grid, Tabs, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import EditCustomerDialog from "./EditCustomerDialog";
 import LayawayList from "./LayawayList";
+import CustomerPaymentLog from "./CustomerPaymentLog";
 
 interface Props {
   params: { id: string };
@@ -94,7 +95,9 @@ const CustomerDetailPage = async ({ params }: Props) => {
           <Tabs.Content value="layaway-list">
             <LayawayList customerId={customer.id} />
           </Tabs.Content>
-          <Tabs.Content value="payment-history">Payment history</Tabs.Content>
+          <Tabs.Content value="payment-history">
+            <CustomerPaymentLog customerId={customer.id} />
+          </Tabs.Content>
         </Tabs.Root>
       </Card>
     </Grid>
