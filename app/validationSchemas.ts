@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, ZodEnum, ZodNumber, ZodObject } from "zod";
 
 export const layawaySchema = z.object({
   item: z.string().min(1, "Item is required"),
@@ -48,6 +48,10 @@ export const paymentSchema = z.object({
   layawayId: z.number().min(1, "Layaway id is required"),
   customerId: z.number().min(1, "Customer id is required"),
 });
+
+export function createPaymentFormDataSchema(
+  outstandingDebt: number
+): ZodObject<{ amount: ZodNumber; paymentMethod: ZodEnum }> {}
 
 export const paymentFormDataSchema = z.object({
   amount: z.number().min(1, "Amount is required"),

@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 400 });
   }
-  const { layawayId, customerId } = body;
+  const { layawayId, customerId, amount } = body;
 
   // Verify associated layaway
   const layaway = await prisma.layaway.findUnique({
@@ -29,6 +29,23 @@ export async function POST(request: NextRequest) {
   if (!customer) {
     return NextResponse.json({ error: "Invalid customer" }, { status: 401 });
   }
+
+  // Check that payment amount does not exceeds outstanding debt
+  if (amount > layaway.outstandingDebt) {
+    return NextResponse.json(
+      { error: "Amount is greater than outstanding debt" },
+      { status: 401 }
+    );
+  }
+
+  // Update layaway to reflect new outstanding debt
+  await prisma.layaway.update({
+    where: { id: layaway.id },
+    data: {
+      outstandingDebt: layaway.outstandingDebt - amount,
+      ...(layaway.outstandingDebt === amount && { status: "PAID" }),
+    },
+  });
 
   // Create payment record
   const payment = await prisma.payment.create({

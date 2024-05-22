@@ -15,7 +15,7 @@ import {
 import { DeleteButton, LayawayStatusBadge, Link } from "@/app/components";
 import { notFound } from "next/navigation";
 import { BiDiamond } from "react-icons/bi";
-import LayawayOutstandingProgress from "../_components/LayawayOutstandingProgress";
+import OutstandingDebtProgress from "../_components/OutstandingDebtProgress";
 import ReminderSwitch from "../_components/ReminderSwitch";
 import EditLayawayDialog from "./EditLayawayDialog";
 import PaymentDialog from "./PaymentDialog";
@@ -28,7 +28,9 @@ interface Props {
 const LayawayDetailPage = async ({ params }: Props) => {
   const layaway = await prisma.layaway.findUnique({
     where: { id: parseInt(params.id) },
-    include: { customer: true },
+    include: {
+      customer: true,
+    },
   });
 
   if (!layaway) notFound();
@@ -114,6 +116,12 @@ const LayawayDetailPage = async ({ params }: Props) => {
                     <DataList.Value>${layaway.value.toString()}</DataList.Value>
                   </DataList.Item>
                   <DataList.Item>
+                    <DataList.Label>Down payment</DataList.Label>
+                    <DataList.Value>
+                      ${layaway.downPayment.toString()}
+                    </DataList.Value>
+                  </DataList.Item>
+                  <DataList.Item>
                     <DataList.Label>Reminder</DataList.Label>
                     <DataList.Value>
                       <ReminderSwitch layaway={layaway} size="1" />
@@ -122,7 +130,7 @@ const LayawayDetailPage = async ({ params }: Props) => {
                   <DataList.Item align="center">
                     <DataList.Label>Outstanding</DataList.Label>
                     <DataList.Value>
-                      <LayawayOutstandingProgress layaway={layaway} />
+                      <OutstandingDebtProgress layaway={layaway} />
                     </DataList.Value>
                   </DataList.Item>
                 </DataList.Root>

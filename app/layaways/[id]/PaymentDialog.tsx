@@ -1,6 +1,6 @@
 "use client";
 
-import { ErrorMessage } from "@/app/components";
+import { ErrorMessage, Spinner } from "@/app/components";
 import { paymentFormDataSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -14,6 +14,7 @@ import {
 } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -25,6 +26,8 @@ interface Props {
 }
 
 const PaymentDialog = ({ layawayId, customerId }: Props) => {
+  const [open, setOpen] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -39,6 +42,22 @@ const PaymentDialog = ({ layawayId, customerId }: Props) => {
   });
   const router = useRouter();
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    if (!isSubmitting) {
+      setOpen(false);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Escape") {
+      setOpen(false);
+    }
+  };
+
   const onSubmit: SubmitHandler<PaymentData> = async ({
     amount,
     paymentMethod,
@@ -51,20 +70,23 @@ const PaymentDialog = ({ layawayId, customerId }: Props) => {
     };
 
     try {
+      setSubmitting(true);
       await axios.post("/api/payments", payload);
       router.refresh();
+      setOpen(false);
     } catch (error) {
       console.log(error);
     }
+    setSubmitting(false);
     reset();
   };
 
   return (
-    <Dialog.Root>
-      <Dialog.Trigger>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger onClick={handleOpen}>
         <Button>Make payment</Button>
       </Dialog.Trigger>
-      <Dialog.Content>
+      <Dialog.Content onKeyDown={handleKeyDown}>
         <Dialog.Title>New Payment</Dialog.Title>
         <Dialog.Description mb="4">
           Make a payment to this layaway
@@ -111,14 +133,12 @@ const PaymentDialog = ({ layawayId, customerId }: Props) => {
             </Box>
           </Flex>
           <Flex mt="3" gap="3" justify="end">
-            <Dialog.Close>
-              <Button variant="soft" color="gray">
-                Cancel
-              </Button>
-            </Dialog.Close>
-            <Dialog.Close>
-              <Button type="submit">Make Payment</Button>
-            </Dialog.Close>
+            <Button variant="soft" color="gray" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              Make Payment{isSubmitting && <Spinner />}
+            </Button>
           </Flex>
         </form>
       </Dialog.Content>

@@ -3,11 +3,11 @@ import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
 import LayawayActions from "./LayawayActions";
 import ReminderSwitch from "./_components/ReminderSwitch";
-import LayawayOutstandingProgress from "./_components/LayawayOutstandingProgress";
+import OutstandingDebtProgress from "./_components/OutstandingDebtProgress";
 
 const Layaways = async () => {
   const layaways = await prisma.layaway.findMany({
-    include: { customer: true },
+    include: { customer: true, payments: { select: { amount: true } } },
   });
 
   return (
@@ -46,7 +46,7 @@ const Layaways = async () => {
                 <LayawayStatusBadge status={layaway.status} />
               </Table.Cell>
               <Table.Cell>
-                <LayawayOutstandingProgress layaway={layaway} />
+                <OutstandingDebtProgress layaway={layaway} />
               </Table.Cell>
               <Table.Cell>
                 <ReminderSwitch layaway={layaway} size="1" />

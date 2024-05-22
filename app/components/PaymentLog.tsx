@@ -40,7 +40,7 @@ const PaymentLog = async ({ payments }: Props) => {
             {payment?.layaway?.item && (
               <Table.Cell>{payment.layaway.item}</Table.Cell>
             )}
-            <Table.Cell>${payment.amount.toNumber()}</Table.Cell>
+            <Table.Cell>${payment.amount}</Table.Cell>
             <Table.Cell>{payment.paymentMethod ?? "Not specified"}</Table.Cell>
             <Table.Cell>
               {payment.date.toLocaleDateString("en", { dateStyle: "medium" })}
