@@ -1,14 +1,16 @@
-import { Button } from "@radix-ui/themes";
+import { Button, Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
+import LayawayStatusFilter from "./_components/LayawayStatusFilter";
 
 const LayawayActions = () => {
   return (
-    <div className="mb-5">
+    <Flex mb="5" justify="between">
+      <LayawayStatusFilter />
       <Button>
         <Link href="/layaways/new">New layaway</Link>
       </Button>
-    </div>
+    </Flex>
   );
 };
 
