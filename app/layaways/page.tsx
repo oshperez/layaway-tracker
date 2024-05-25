@@ -4,9 +4,20 @@ import { Table } from "@radix-ui/themes";
 import LayawayActions from "./LayawayActions";
 import ReminderSwitch from "./_components/ReminderSwitch";
 import OutstandingDebtProgress from "./_components/OutstandingDebtProgress";
+import { Status } from "@prisma/client";
 
-const Layaways = async () => {
+interface Props {
+  searchParams: { status: Status };
+}
+
+const Layaways = async ({ searchParams }: Props) => {
+  const validStatuses = Object.values(Status);
+  const status = validStatuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+
   const layaways = await prisma.layaway.findMany({
+    where: { status },
     include: { customer: true, payments: { select: { amount: true } } },
   });
 

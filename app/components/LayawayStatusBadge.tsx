@@ -13,7 +13,7 @@ const statusMap: Record<
   OPEN: { label: "Open", color: "green" },
   PAID: { label: "Paid", color: "violet" },
   OVERDUE: { label: "Overdue", color: "red" },
-  CLOSED: { label: "Close", color: "blue" },
+  CLOSED: { label: "Closed", color: "blue" },
 };
 
 const LayawayStatusBadge = ({ status }: Props) => {
