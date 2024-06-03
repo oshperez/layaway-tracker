@@ -1,14 +1,12 @@
 import { LayawayStatusBadge, Link } from "@/app/components";
-import NexLink from "next/link";
 import prisma from "@/prisma/client";
-import { Box, Table } from "@radix-ui/themes";
-import LayawayActions from "./LayawayActions";
-import ReminderSwitch from "./_components/ReminderSwitch";
-import OutstandingDebtProgress from "./_components/OutstandingDebtProgress";
 import { Layaway, Status } from "@prisma/client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
+import { Table } from "@radix-ui/themes";
+import NexLink from "next/link";
+import LayawayActions from "./LayawayActions";
+import OutstandingDebtProgress from "./_components/OutstandingDebtProgress";
+import ReminderSwitch from "./_components/ReminderSwitch";
 
 interface Props {
   searchParams: { status: Status; sort: keyof Layaway; order: "asc" | "desc" };
@@ -21,9 +19,16 @@ const Layaways = async ({ searchParams }: Props) => {
   const status = validStatuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
+  const validOrderParams = ["asc", "desc"];
+  const orderBy =
+    searchParams.sort === "createdAt" &&
+    validOrderParams.includes(searchParams.order)
+      ? { [searchParams.sort]: searchParams.order }
+      : undefined;
 
   const layaways = await prisma.layaway.findMany({
     where: { status },
+    orderBy,
     include: { customer: true, payments: { select: { amount: true } } },
   });
 
