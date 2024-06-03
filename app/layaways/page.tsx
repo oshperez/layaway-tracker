@@ -1,16 +1,22 @@
 import { LayawayStatusBadge, Link } from "@/app/components";
+import NexLink from "next/link";
 import prisma from "@/prisma/client";
-import { Table } from "@radix-ui/themes";
+import { Box, Table } from "@radix-ui/themes";
 import LayawayActions from "./LayawayActions";
 import ReminderSwitch from "./_components/ReminderSwitch";
 import OutstandingDebtProgress from "./_components/OutstandingDebtProgress";
-import { Status } from "@prisma/client";
+import { Layaway, Status } from "@prisma/client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 
 interface Props {
-  searchParams: { status: Status };
+  searchParams: { status: Status; sort: keyof Layaway; order: "asc" | "desc" };
 }
 
 const Layaways = async ({ searchParams }: Props) => {
+  const isAscOrder: boolean = searchParams.order === "asc";
+
   const validStatuses = Object.values(Status);
   const status = validStatuses.includes(searchParams.status)
     ? searchParams.status
@@ -37,7 +43,20 @@ const Layaways = async ({ searchParams }: Props) => {
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Outstanding</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Reminder</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Created</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="flex gap-2">
+              <NexLink
+                href={{
+                  query: {
+                    ...searchParams,
+                    sort: "createdAt",
+                    order: isAscOrder ? "desc" : "asc",
+                  },
+                }}
+              >
+                Created
+              </NexLink>
+              {isAscOrder ? <ArrowUpIcon /> : <ArrowDownIcon />}
+            </Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
