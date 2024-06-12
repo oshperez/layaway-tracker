@@ -1,4 +1,4 @@
-import { LayawayStatusBadge, Link } from "@/app/components";
+import { LayawayStatusBadge, Link, Pagination } from "@/app/components";
 import prisma from "@/prisma/client";
 import { Layaway, Status } from "@prisma/client";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
@@ -9,7 +9,12 @@ import OutstandingDebtProgress from "./_components/OutstandingDebtProgress";
 import ReminderSwitch from "./_components/ReminderSwitch";
 
 interface Props {
-  searchParams: { status: Status; sort: keyof Layaway; order: "asc" | "desc" };
+  searchParams: {
+    status: Status;
+    sort: keyof Layaway;
+    order: "asc" | "desc";
+    page: string;
+  };
 }
 
 const Layaways = async ({ searchParams }: Props) => {
@@ -19,6 +24,7 @@ const Layaways = async ({ searchParams }: Props) => {
   const status = validStatuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
+  const where = { status };
   const validOrderParams = ["asc", "desc"];
   const orderBy =
     searchParams.sort === "createdAt" &&
@@ -26,16 +32,23 @@ const Layaways = async ({ searchParams }: Props) => {
       ? { [searchParams.sort]: searchParams.order }
       : undefined;
 
+  const page = parseInt(searchParams.page) || 1;
+  const pageSize = 10;
+
   const layaways = await prisma.layaway.findMany({
-    where: { status },
+    where,
     orderBy,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
     include: { customer: true, payments: { select: { amount: true } } },
   });
+
+  const layawayCount = await prisma.layaway.count({ where });
 
   return (
     <>
       <LayawayActions />
-      <Table.Root variant="surface">
+      <Table.Root variant="surface" mb="5">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Item</Table.ColumnHeaderCell>
@@ -97,6 +110,11 @@ const Layaways = async ({ searchParams }: Props) => {
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        pageSize={pageSize}
+        currentPage={page}
+        itemCount={layawayCount}
+      />
     </>
   );
 };
