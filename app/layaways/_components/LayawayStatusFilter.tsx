@@ -18,7 +18,7 @@ const LayawayStatusFilter = () => {
 
   const handleChange = (status?: Status) => {
     const currentParams = Object.fromEntries(searchParams.entries());
-    const { status: _, ...otherParams } = currentParams;
+    const { status: _, page: __, ...otherParams } = currentParams;
     const updatedParams = { ...(status && { status }), ...otherParams };
 
     const params = new URLSearchParams(updatedParams);

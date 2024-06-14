@@ -13,8 +13,9 @@ interface Props {
   itemCount: number;
   pageSize: number;
   currentPage: number;
+  className?: string;
 }
-const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
+const Pagination = ({ itemCount, pageSize, currentPage, className }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -28,7 +29,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
   };
 
   return (
-    <Flex align="center" gap="2" className="mx-auto w-fit">
+    <Flex align="center" gap="2" className={className}>
       <Button
         color="gray"
         variant="soft"
