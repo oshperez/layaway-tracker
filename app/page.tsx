@@ -1,3 +1,19 @@
-export default function Home() {
-  return <div>Home page</div>;
+import prisma from "@/prisma/client";
+import LatestLayaways from "./LatestLayaways";
+import LayawaysBarChart from "./LayawaysBarChart";
+
+export default async function Home() {
+  const open = await prisma.layaway.count({ where: { status: "OPEN" } });
+  const closed = await prisma.layaway.count({ where: { status: "CLOSED" } });
+  const overdue = await prisma.layaway.count({ where: { status: "OVERDUE" } });
+  const paid = await prisma.layaway.count({ where: { status: "PAID" } });
+
+  return (
+    <LayawaysBarChart
+      open={open}
+      closed={closed}
+      overdue={overdue}
+      paid={paid}
+    />
+  );
 }
