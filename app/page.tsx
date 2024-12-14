@@ -1,6 +1,7 @@
 import prisma from "@/prisma/client";
 import LatestLayaways from "./LatestLayaways";
 import LayawaysBarChart from "./LayawaysBarChart";
+import LayawaysSummary from "./LayawaysSummary";
 
 export default async function Home() {
   const open = await prisma.layaway.count({ where: { status: "OPEN" } });
@@ -9,7 +10,13 @@ export default async function Home() {
   const paid = await prisma.layaway.count({ where: { status: "PAID" } });
 
   return (
-    <LayawaysBarChart
+    // <LayawaysBarChart
+    //   open={open}
+    //   closed={closed}
+    //   overdue={overdue}
+    //   paid={paid}
+    // />
+    <LayawaysSummary
       open={open}
       closed={closed}
       overdue={overdue}
