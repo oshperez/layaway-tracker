@@ -4,13 +4,15 @@ import { Card } from "@radix-ui/themes";
 import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from "recharts";
 
 interface Props {
-  open: number;
-  closed: number;
-  overdue: number;
-  paid: number;
+  data: {
+    open: number;
+    closed: number;
+    overdue: number;
+    paid: number;
+  };
 }
 
-function LayawaysBarChart({ open, closed, overdue, paid }: Props) {
+function LayawaysBarChart({ data: { open, closed, overdue, paid } }: Props) {
   const data = [
     { label: "Open", value: open },
     { label: "Closed", value: closed },

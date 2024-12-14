@@ -4,13 +4,15 @@ import Link from "next/link";
 import React from "react";
 
 interface Props {
-  open: number;
-  closed: number;
-  overdue: number;
-  paid: number;
+  data: {
+    open: number;
+    closed: number;
+    overdue: number;
+    paid: number;
+  };
 }
 
-function LayawaysSummary({ open, closed, overdue, paid }: Props) {
+function LayawaysSummary({ data: { open, closed, overdue, paid } }: Props) {
   const containers: { label: string; value: number; status: Status }[] = [
     { label: "Open Layaways", value: open, status: "OPEN" },
     { label: "Closed Layaways ", value: closed, status: "CLOSED" },
