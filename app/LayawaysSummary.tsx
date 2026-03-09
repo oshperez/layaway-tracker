@@ -16,8 +16,8 @@ function LayawaysSummary({ data: { open, closed, overdue, paid } }: Props) {
   const containers: { label: string; value: number; status: Status }[] = [
     { label: "Open Layaways", value: open, status: "OPEN" },
     { label: "Closed Layaways ", value: closed, status: "CLOSED" },
-    { label: "Overdue Layaways", value: paid, status: "OVERDUE" },
-    { label: "Paid Layaways", value: overdue, status: "PAID" },
+    { label: "Paid Layaways", value: paid, status: "PAID" },
+    { label: "Overdue Layaways", value: overdue, status: "OVERDUE" },
   ];
   return (
     <Flex gap="4">
