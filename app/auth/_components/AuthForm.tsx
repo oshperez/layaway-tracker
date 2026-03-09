@@ -65,7 +65,7 @@ const AuthForm = ({ purpose }: { purpose: "signin" | "register" }) => {
           <Flex direction="column" gap="7" justify="center">
             <Box className="text-center mt-3">
               <Heading size="8" className="mb-2">
-                {purpose === "signin" && "Sing In"}
+                {purpose === "signin" && "Sign in"}
                 {purpose === "register" && "Welcome"}
               </Heading>
               <Text>
@@ -147,7 +147,7 @@ const AuthForm = ({ purpose }: { purpose: "signin" | "register" }) => {
               }
               className="!cursor-pointer"
             >
-              <ImGoogle /> Sing in with Google
+              <ImGoogle /> Sign in with Google
             </Button>
           </Flex>
         </Card>

@@ -22,7 +22,7 @@ function LayawaysSummary({ data: { open, closed, overdue, paid } }: Props) {
   return (
     <Flex gap="4">
       {containers.map((container) => (
-        <Card key={container.label}>
+        <Card key={container.label} size="2">
           <Flex direction="column" gap="1">
             <Link
               href={`/layaways?status=${container.status}`}

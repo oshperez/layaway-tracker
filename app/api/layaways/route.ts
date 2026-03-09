@@ -4,10 +4,18 @@ import { layawaySchema } from "../../validationSchemas";
 import authOptions from "@/app/auth/authOptions";
 import { getServerSession } from "next-auth";
 
+const isAuthDisabled = process.env.NEXT_PUBLIC_AUTH_DISABLED === "true";
+
 export async function POST(request: NextRequest) {
   // Authorize request
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({}, { status: 401 });
+  // const session = await getServerSession(authOptions);
+  // if (!session) return NextResponse.json({}, { status: 401 });
+  if (!isAuthDisabled) {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+  }
 
   const body = await request.json();
 

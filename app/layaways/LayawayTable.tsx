@@ -35,7 +35,7 @@ const LayawayTable = ({ searchParams, layaways }: Props) => {
           <Table.ColumnHeaderCell className="hidden md:table-cell">
             Status
           </Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Outstanding</Table.ColumnHeaderCell>
+          {/* <Table.ColumnHeaderCell>Outstanding</Table.ColumnHeaderCell> */}
           <Table.ColumnHeaderCell>Reminder</Table.ColumnHeaderCell>
           <Table.ColumnHeaderCell className="flex gap-2">
             <NexLink
@@ -69,9 +69,9 @@ const LayawayTable = ({ searchParams, layaways }: Props) => {
             <Table.Cell className="hidden md:table-cell">
               <LayawayStatusBadge status={layaway.status} />
             </Table.Cell>
-            <Table.Cell>
+            {/* <Table.Cell>
               <OutstandingDebtProgress layaway={layaway} />
-            </Table.Cell>
+            </Table.Cell> */}
             <Table.Cell>
               <ReminderSwitch layaway={layaway} size="1" />
             </Table.Cell>

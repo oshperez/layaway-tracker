@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { Avatar, Card, Flex, Heading, Table } from "@radix-ui/themes";
+import { Avatar, Card, Flex, Heading, Table, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import { LayawayStatusBadge } from "./components";
 
@@ -17,7 +17,7 @@ const LatestLayaways = async () => {
     },
   });
   return (
-    <Card>
+    <Card size="3">
       <Heading size="5" mb="5">
         Latest layaways
       </Heading>
@@ -28,16 +28,18 @@ const LatestLayaways = async () => {
               <Table.Cell>
                 <Flex justify="between">
                   <Flex direction="column" align="start" gap="2">
-                    <Link href={`layaways/${layaway.id}`}>{layaway.item}</Link>
-                    <LayawayStatusBadge status={layaway.status} />
+                    <Link
+                      href={`layaways/${layaway.id}`}
+                      className="font-medium text-base"
+                    >
+                      {layaway.item}
+                    </Link>
+                    <Text weight="light">
+                      belongs to {layaway.customer.name}
+                    </Text>
                   </Flex>
                   <Link href={`customers/${layaway.customer.id}`}>
-                    <Avatar
-                      fallback={layaway.customer.name
-                        .slice(0, 2)
-                        .toLocaleUpperCase()}
-                      radius="large"
-                    />
+                    <LayawayStatusBadge status={layaway.status} />
                   </Link>
                 </Flex>
               </Table.Cell>
