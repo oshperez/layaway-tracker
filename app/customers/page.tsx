@@ -3,6 +3,8 @@ import prisma from "@/prisma/client";
 import { Table, Text } from "@radix-ui/themes";
 import CustomerActions from "./CustomerActions";
 
+export const dynamic = "force-dynamic";
+
 const CustomerPage = async () => {
   const customers = await prisma.customer.findMany();
 
