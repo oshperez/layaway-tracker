@@ -42,18 +42,22 @@ export const patchCustomerSchema = z.object({
   phone: z.string().min(10, "Phone is required").max(255).optional(),
 });
 
-export const paymentSchema = z.object({
-  amount: z.number().min(1, "Amount is required"),
-  paymentMethod: z.enum(["CARD", "CASH"]).nullable(),
-  layawayId: z.number().min(1, "Layaway id is required"),
-  customerId: z.number().min(1, "Customer id is required"),
-});
-
 export function createPaymentFormDataSchema(
-  outstandingDebt: number
-): ZodObject<{ amount: ZodNumber; paymentMethod: ZodEnum }> {}
+  outstandingDebt: number,
+): ZodObject<{
+  amount: ZodNumber;
+  paymentMethod: ZodEnum<["CASH", "CARD", "UNKNOWN"]>;
+}> {
+  return z.object({
+    amount: z
+      .number()
+      .min(1, "Amount is required")
+      .max(outstandingDebt, "Amount cannot exceed outstanding debt"),
+    paymentMethod: z.enum(["CASH", "CARD", "UNKNOWN"]),
+  });
+}
 
 export const paymentFormDataSchema = z.object({
   amount: z.number().min(1, "Amount is required"),
-  paymentMethod: z.enum(["CARD", "CASH", "UNKNOWN"]),
+  paymentMethod: z.enum(["CASH", "CARD", "UNKNOWN"]),
 });

@@ -1,4 +1,4 @@
-import { paymentSchema } from "@/app/validationSchemas";
+import { paymentFormDataSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
 
   // Validate request payload
-  const validation = paymentSchema.safeParse(body);
+  const validation = paymentFormDataSchema.safeParse(body);
   if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 400 });
   }
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   if (amount > layaway.outstandingDebt) {
     return NextResponse.json(
       { error: "Amount is greater than outstanding debt" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
