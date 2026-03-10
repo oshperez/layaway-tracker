@@ -7,6 +7,7 @@ import GoogleProvider from "next-auth/providers/google";
 
 const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -18,25 +19,26 @@ const authOptions: AuthOptions = {
           placeholder: "Password",
         },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials?.email || !credentials.password) return null;
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
-        if (!user) return null;
+
+        if (!user || !user.hashedPassword) return null;
 
         const passwordMatch = await bcrypt.compare(
           credentials.password,
-          user.hashedPassword!
+          user.hashedPassword,
         );
 
         return passwordMatch ? user : null;
       },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
   pages: {
