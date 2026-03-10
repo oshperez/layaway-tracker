@@ -11,5 +11,5 @@ const NewLayawayPage = () => {
     </Card>
   );
 };
-
+export const dynamic = "force-dynamic";
 export default NewLayawayPage;
