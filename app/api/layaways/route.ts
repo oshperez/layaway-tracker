@@ -4,6 +4,8 @@ import { layawaySchema } from "../../validationSchemas";
 import authOptions from "@/app/auth/authOptions";
 import { getServerSession } from "next-auth";
 
+export const dynamic = "force-dynamic";
+
 const isAuthDisabled = process.env.NEXT_PUBLIC_AUTH_DISABLED === "true";
 
 export async function POST(request: NextRequest) {

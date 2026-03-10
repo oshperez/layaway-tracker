@@ -3,6 +3,8 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import prisma from "@/prisma/client";
 
+export const dynamic = "force-dynamic";
+
 const schema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
@@ -32,6 +34,6 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json(
     { name: newUser.name, email: newUser.email },
-    { status: 200 }
+    { status: 200 },
   );
 }
