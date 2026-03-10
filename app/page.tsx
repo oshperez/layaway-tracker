@@ -4,6 +4,7 @@ import LayawaysBarChart from "./LayawaysBarChart";
 import LayawaysSummary from "./LayawaysSummary";
 import { Flex, Grid } from "@radix-ui/themes";
 
+export const dynamic = "force-dynamic";
 export default async function Home() {
   const open = await prisma.layaway.count({ where: { status: "OPEN" } });
   const closed = await prisma.layaway.count({ where: { status: "CLOSED" } });
