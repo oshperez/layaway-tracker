@@ -2,9 +2,11 @@ import { customerSchema } from "@/app/validationSchemas";
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const { name, phone } = await request.json();
   const validation = await customerSchema.safeParse({ name, phone });
@@ -29,7 +31,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   const customer = await prisma.customer.findUnique({
     where: { id: parseInt(params.id) },
