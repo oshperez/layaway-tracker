@@ -1,3 +1,5 @@
+"use client";
+
 import prisma from "@/prisma/client";
 import LatestLayaways from "./LatestLayaways";
 import LayawaysBarChart from "./LayawaysBarChart";
