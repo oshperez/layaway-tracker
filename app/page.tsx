@@ -1,12 +1,15 @@
-"use client";
-
 import prisma from "@/prisma/client";
 import LatestLayaways from "./LatestLayaways";
-import LayawaysBarChart from "./LayawaysBarChart";
+// import LayawaysBarChart from "./LayawaysBarChart";
 import LayawaysSummary from "./LayawaysSummary";
 import { Flex, Grid } from "@radix-ui/themes";
+import nextDynamic from "next/dynamic";
 
 export const dynamic = "force-dynamic";
+
+const LayawaysBarChart = nextDynamic(() => import("./LayawaysBarChart"), {
+  ssr: false,
+});
 
 export default async function Home() {
   const open = await prisma.layaway.count({ where: { status: "OPEN" } });
