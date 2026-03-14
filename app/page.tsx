@@ -19,14 +19,6 @@ export default async function Home() {
 
   const data = { open, closed, overdue, paid };
 
-  try {
-    const open = await prisma.layaway.count({ where: { status: "OPEN" } });
-    return <div>Open layaways: {open}</div>;
-  } catch (error) {
-    console.error(error);
-    return <div>Database connection failed</div>;
-  }
-
   return (
     <Grid columns={{ initial: "1", md: "2" }} gap="5">
       <Flex direction="column" gap="5">
