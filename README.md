@@ -1,34 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Layaway Tracker
 
-## Getting Started
+## Description
 
-First, run the development server:
+This app allows users to manage layaway purchases by creating, updating, and deleting layaways and customers. Each layaway is linked to a customer, enabling payment tracking, access to payment history, and clear visibility of purchase progress. The app also includes reminders, authentication, and organized data views.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Project Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [x] **Full CRUD functionality for layaways**
+  - New layaway entries can be created, modified, or removed
+  - Every layaway must be associated with a customer
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [x] **Full CRUD functionality for customers**
+  - Customer profiles can be created, updated, and deleted
+  - Each customer can have multiple associated layaways
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- [x] **Customer–layaway relationship**
+  - Layaways are strictly linked to customers
+  - All layaways belonging to a specific customer can be viewed in one place
 
-## Learn More
+- [x] **Payment tracking system**
+  - Payments can be recorded for each layaway
+  - Multiple payment methods are supported (card, cash, or other)
+  - A complete payment history is maintained per layaway
 
-To learn more about Next.js, take a look at the following resources:
+- [x] **Payment history views**
+  - Detailed payment history is available for each layaway
+  - Customer-level transaction history provides a broader financial overview
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [x] **Payment reminders**
+  - Reminders can be set for upcoming or overdue payments
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- [x] **Pagination for layaways**
+  - Layaway records are paginated to improve performance and usability
+  - Navigation across multiple pages of data is supported
 
-## Deploy on Vercel
+- [x] **Authentication**
+  - Secure login and logout functionality
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Video Walkthrough
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<div>
+    <a href="https://www.loom.com/share/86caddbf8672482898f6390264cdf974">
+      <p>Layaway Tracker - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/86caddbf8672482898f6390264cdf974">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/86caddbf8672482898f6390264cdf974-f58a8208cb42a6d6-full-play.gif#t=0.1">
+    </a>
+  </div>
+
+## Notes
+
+**Challenging part:** Designing the relationship between customers and layaways while ensuring data integrity—particularly enforcing that each layaway must be linked to a customer. Managing payment history, reminders, and maintaining a clean user experience with pagination and authentication also required careful handling of state and data flow.

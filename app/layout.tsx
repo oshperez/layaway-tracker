@@ -16,7 +16,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Layaway Tracker",
   icons: {
-    icon: "favicon.svg",
+    icon: "/favicon.svg",
   },
 };
 
